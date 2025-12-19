@@ -40,7 +40,7 @@
             }
         }
 
-        /* 前半部分：新聖誕樹背景 */
+        /* 前半部分：新背景圖片 */
         #front-screen {
             position: fixed;
             top: 0; left: 0;
@@ -50,7 +50,7 @@
             z-index: 5;
         }
 
-        /* 後半部分：影片容器 */
+        /* 後半部分：嵌入 Streamable 影片（全螢幕、無控制欄） */
         #video-container {
             position: fixed;
             top: 0; left: 0;
@@ -60,10 +60,10 @@
             z-index: 6;
         }
 
-        #video-container video {
+        #video-container iframe {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* 填滿螢幕，無黑邊 */
+            border: none;
         }
 
         /* 可點擊區域（整個畫面） */
@@ -89,7 +89,7 @@
             z-index: 8;
             cursor: pointer;
             transition: opacity 1s ease;
-            pointer-events: none; /* 文字本身不阻擋點擊，整個畫面可點 */
+            pointer-events: none;
         }
 
         /* 手機模式微調文字大小 */
@@ -114,18 +114,15 @@
     <!-- 前半部分背景 -->
     <div id="front-screen"></div>
 
-    <!-- 後半部分影片 -->
+    <!-- 後半部分嵌入影片 -->
     <div id="video-container">
-        <video id="christmas-video" muted loop playsinline>
-            <source src="https://streamable.com/7bkbcx.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+        <iframe src="https://streamable.com/e/7bkbcx?autoplay=1&loop=1&title=0&byline=0&portrait=0" allowfullscreen allow="autoplay"></iframe>
     </div>
 
-    <!-- 可點擊區域（整個畫面） -->
+    <!-- 可點擊區域 -->
     <div id="click-area"></div>
 
-    <!-- 提示文字（透明、置中） -->
+    <!-- 提示文字 -->
     <div id="hint">Please tap here</div>
 
     <!-- 落雪容器 -->
@@ -136,19 +133,12 @@
         const frontScreen = document.getElementById('front-screen');
         const videoContainer = document.getElementById('video-container');
         const hint = document.getElementById('hint');
-        const video = document.getElementById('christmas-video');
 
         function switchToVideo() {
             frontScreen.classList.add('hidden');
             clickArea.classList.add('hidden');
             hint.classList.add('hidden');
             videoContainer.classList.add('visible');
-
-            // 開始播放影片
-            video.play();
-
-            // 移除事件，避免重複觸發
-            clickArea.removeEventListener('click', switchToVideo);
         }
 
         clickArea.addEventListener('click', switchToVideo);
