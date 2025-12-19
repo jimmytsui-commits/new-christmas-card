@@ -50,7 +50,7 @@
             z-index: 5;
         }
 
-        /* 後半部分：嵌入 Streamable 影片（全螢幕、無控制欄） */
+        /* 後半部分：原生影片（無任何控制欄） */
         #video-container {
             position: fixed;
             top: 0; left: 0;
@@ -60,10 +60,10 @@
             z-index: 6;
         }
 
-        #video-container iframe {
+        #video-container video {
             width: 100%;
             height: 100%;
-            border: none;
+            object-fit: cover; /* 填滿螢幕，無黑邊 */
         }
 
         /* 可點擊區域（整個畫面） */
@@ -100,71 +100,4 @@
         }
 
         .hidden {
-            opacity: 0 !important;
-            pointer-events: none !important;
-        }
-
-        #video-container.visible {
-            opacity: 1;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- 前半部分背景 -->
-    <div id="front-screen"></div>
-
-    <!-- 後半部分嵌入影片 -->
-    <div id="video-container">
-        <iframe src="https://streamable.com/e/7bkbcx?autoplay=1&loop=1&title=0&byline=0&portrait=0" allowfullscreen allow="autoplay"></iframe>
-    </div>
-
-    <!-- 可點擊區域 -->
-    <div id="click-area"></div>
-
-    <!-- 提示文字 -->
-    <div id="hint">Please tap here</div>
-
-    <!-- 落雪容器 -->
-    <div id="snow-container"></div>
-
-    <script>
-        const clickArea = document.getElementById('click-area');
-        const frontScreen = document.getElementById('front-screen');
-        const videoContainer = document.getElementById('video-container');
-        const hint = document.getElementById('hint');
-
-        function switchToVideo() {
-            frontScreen.classList.add('hidden');
-            clickArea.classList.add('hidden');
-            hint.classList.add('hidden');
-            videoContainer.classList.add('visible');
-        }
-
-        clickArea.addEventListener('click', switchToVideo);
-
-        // 落雪效果
-        function createSnowflake() {
-            const snowflake = document.createElement('div');
-            snowflake.classList.add('snowflake');
-            snowflake.textContent = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
-
-            snowflake.style.left = Math.random() * 100 + 'vw';
-            snowflake.style.fontSize = (Math.random() * 0.8 + 0.8) + 'em';
-            const duration = Math.random() * 9 + 3;
-            snowflake.style.animationDuration = duration + 's';
-
-            document.getElementById('snow-container').appendChild(snowflake);
-
-            setTimeout(() => {
-                if (snowflake.parentNode) snowflake.remove();
-            }, duration * 1000 + 1000);
-        }
-
-        setInterval(createSnowflake, 300);
-        for (let i = 0; i < 50; i++) {
-            setTimeout(createSnowflake, i * 100);
-        }
-    </script>
-</body>
-</html>
+            opacity
